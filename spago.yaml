@@ -1,0 +1,20 @@
+package:
+  name: minitools-example-app
+  dependencies:
+    - argonaut-generic
+    - console
+    - effect
+    - minitools
+    - prelude
+    - strings-extra
+  test:
+    main: Test.Main
+    dependencies: []
+workspace:
+  packageSet:
+    registry: 63.2.0
+  extraPackages:
+    minitools:
+      # path: /home/lucasdicioccio/code/opensource/purescript-minitools
+      git: https://github.com/lucasdicioccio/purescript-minitools.git
+      ref: 1eeaa40993ee3d46045bb7ecb7d7aad65704df2c
