@@ -2,6 +2,8 @@
 
 This code is a demonstration of my [proposed architecture for Halogen applications](https://dicioccio.fr/topics/purescript-halogen-architecture.html).
 
+See it live [on my blog](https://dicioccio.fr/purescript-minitools-architecturedemo.html).
+
 # Do not miss
 
 - The file layout in `src`.
