@@ -33,7 +33,6 @@ See it live [on my blog](https://dicioccio.fr/purescript-minitools-architectured
 Note: you can contribute individual commits to these:
 
 - I'd like to further extract "domain" logic and some Handler-logic into separate functions (and showing how to test these pieces of code in isolation)
-- HTML fix to the "new-{todo,note}" fields so that we have forms with an onSubmit action
 - add some sorting/filtering to the table
 
 # build it
