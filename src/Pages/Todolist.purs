@@ -8,6 +8,7 @@ import Data.Maybe (Maybe(..))
 import Data.Maybe as Maybe
 import Data.List as List
 import Data.Monoid (mempty)
+import DOM.HTML.Indexed.InputType as DOM
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
@@ -23,7 +24,7 @@ import Minitools.Bricks.SetSearchSelector as SetSearchSelector
 import Minitools.Bricks.Table as Table
 
 -------------------------------------------------------------------------------
-import Pages.Todolist.Action (Action(..),TodoAction(..),NoteUIAction(..))
+import Pages.Todolist.Action (Action(..),TodoAction(..),NoteUIAction(..),FormEvent(..))
 import Pages.Todolist.Base (Note, isOpen)
 import Pages.Todolist.StoredState (StoredState)
 import Pages.Todolist.Trace (Trace(..))
@@ -155,8 +156,9 @@ page { tracer } =
       [ HP.classes [ HH.ClassName "field", HH.ClassName "has-addons" ]
       , reportKey "new-todo"
       ]
-      [ HH.div
+      [ HH.form
         [ HP.class_ (HH.ClassName "control")
+        , HE.onSubmit (CreateTodo <<< Just <<< FormEvent)
         ]
         [ HH.input
           [ HP.class_ (HH.ClassName "input")
@@ -172,7 +174,7 @@ page { tracer } =
           { text: "add"
           , info: "insert new todo item"
           , disabled: state.ui.newTodoText == ""
-          , action: CreateTodo
+          , action: CreateTodo Nothing
           }
         ]
       ]

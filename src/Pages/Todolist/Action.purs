@@ -2,10 +2,14 @@
 module Pages.Todolist.Action where
 
 -------------------------------------------------------------------------------
-import Prelude (class Show)
+import Prelude (class Show, Unit)
+import Effect (Effect)
 import Data.Generic.Rep (class Generic)
+import Data.Maybe (Maybe)
 import Data.Show.Generic (genericShow)
 import Minitools.Seqnum (Seqnum)
+import Web.Event.Internal.Types as Web
+import Web.Event.Event as Web
 
 -------------------------------------------------------------------------------
 import Pages.Todolist.Base
@@ -18,6 +22,14 @@ derive instance genericTodoAction :: Generic TodoAction _
 instance showTodoAction :: Show TodoAction where
   show = genericShow
 
+-- a newtype wrapper with a Show instance
+newtype FormEvent = FormEvent Web.Event
+instance showWebEvent :: Show FormEvent where
+  show _ = "FormEvent"
+
+cancelEventPropagation :: FormEvent -> Effect Unit
+cancelEventPropagation (FormEvent ev) = Web.preventDefault ev
+
 data NoteUIAction
   = ChangeTitle String
   | ChangeContent String
@@ -28,7 +40,7 @@ instance showNoteUIAction :: Show NoteUIAction where
 data Action
   = Initialize
   | SetNewTodoText String
-  | CreateTodo
+  | CreateTodo (Maybe FormEvent)
   | TodoAction (Seqnum "todo") TodoAction
   | DeleteTodo (Seqnum "todo")
   | SetNewNoteTitle String
