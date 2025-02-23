@@ -8,6 +8,7 @@ import Data.Maybe (Maybe(..))
 import Data.Maybe as Maybe
 import Data.List as List
 import Data.Monoid (mempty)
+import DOM.HTML.Indexed.InputType as DOM
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
@@ -23,7 +24,7 @@ import Minitools.Bricks.SetSearchSelector as SetSearchSelector
 import Minitools.Bricks.Table as Table
 
 -------------------------------------------------------------------------------
-import Pages.Todolist.Action (Action(..),TodoAction(..),NoteUIAction(..))
+import Pages.Todolist.Action (Action(..),TodoAction(..),NoteUIAction(..),FormEvent(..))
 import Pages.Todolist.Base (Note, isOpen)
 import Pages.Todolist.StoredState (StoredState)
 import Pages.Todolist.Trace (Trace(..))
@@ -155,8 +156,9 @@ page { tracer } =
       [ HP.classes [ HH.ClassName "field", HH.ClassName "has-addons" ]
       , reportKey "new-todo"
       ]
-      [ HH.div
+      [ HH.form
         [ HP.class_ (HH.ClassName "control")
+        , HE.onSubmit (CreateTodo <<< Just <<< FormEvent)
         ]
         [ HH.input
           [ HP.class_ (HH.ClassName "input")
@@ -172,7 +174,7 @@ page { tracer } =
           { text: "add"
           , info: "insert new todo item"
           , disabled: state.ui.newTodoText == ""
-          , action: CreateTodo
+          , action: CreateTodo Nothing
           }
         ]
       ]
@@ -354,8 +356,9 @@ page { tracer } =
       [ HP.classes [ HH.ClassName "field", HH.ClassName "has-addons" ]
       , reportKey "new-note"
       ]
-      [ HH.div
+      [ HH.form
         [ HP.class_ (HH.ClassName "control")
+        , HE.onSubmit (\ev -> CreateNote (Just (FormEvent ev)) state.ui.newNoteTitle)
         ]
         [ HH.input
           [ HP.class_ (HH.ClassName "input")
@@ -371,7 +374,7 @@ page { tracer } =
           { text: "add"
           , info: "insert new note"
           , disabled: state.ui.newNoteTitle == ""
-          , action: CreateNote state.ui.newNoteTitle
+          , action: CreateNote Nothing state.ui.newNoteTitle
           }
         ]
       ]
@@ -499,8 +502,7 @@ render_about =
     , HH.text "I would like to have individual commits starting from this base for showing how to evolve such todo-app. "
     , HH.text "(A) it is interesting to add some filter/sorter on the table like I did in PostgREST-Table. "
     , HH.text "(B) we need to modify the Action and Handlers to support a tutorial or insert-data mode. "
-    , HH.text "(C) we need some slight modification to the HTML layout so that the 'add buttons' are bound to onSubmit rather than onClick. "
-    , HH.text "(D) add some sum-type to specialize notes (e.g., if a note is an address we may link to an online-map service)."
+    , HH.text "(C) add some sum-type to specialize notes (e.g., if a note is an address we may link to an online-map service)."
     ]
   , HH.p_ 
     [ HH.text "Contributions are welcome. "

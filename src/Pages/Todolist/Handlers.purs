@@ -3,6 +3,8 @@ module Pages.Todolist.Handlers where
 
 -------------------------------------------------------------------------------
 import Prelude ((==),(/=),($),Unit,bind,discard,map,pure,unit)
+import Effect.Class (liftEffect)
+import Data.Foldable (traverse_)
 import Data.Maybe (Maybe(..))
 import Data.Maybe as Maybe
 import Data.Array as Array
@@ -44,7 +46,8 @@ handleAction tracer action =
       H.modify_ _ { ui { newTodoText = txt } }
     SetNewNoteTitle txt ->
       H.modify_ _ { ui { newNoteTitle = txt } }
-    CreateTodo -> do
+    CreateTodo event -> do
+      liftEffect $ traverse_ cancelEventPropagation event
       seqnum <- Seqnum.allocate
       let appendtodo st0 = Array.cons {seqnum, status: Todo, text: st0.ui.newTodoText} st0.entities.todos
       H.modify_ (\st0 -> st0 { entities { todos = appendtodo st0 }, ui { newTodoText = "" } })
@@ -54,7 +57,8 @@ handleAction tracer action =
       let filterattachments st0 = Array.filter (\x -> x.todoSeqnum /= seqnum) st0.entities.attachments
       H.modify_ (\st0 -> st0 { entities { todos = filtertodo st0, attachments = filterattachments st0 } })
       requestSave
-    CreateNote title -> do
+    CreateNote event title -> do
+      liftEffect $ traverse_ cancelEventPropagation event
       seqnum <- Seqnum.allocate
       let appendnote st0 = Array.cons {seqnum, title, content: ""} st0.entities.notes
       H.modify_ (\st0 -> st0 { entities { notes = appendnote st0 }, ui { newNoteTitle = "" } })
