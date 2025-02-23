@@ -44,7 +44,7 @@ data Action
   | TodoAction (Seqnum "todo") TodoAction
   | DeleteTodo (Seqnum "todo")
   | SetNewNoteTitle String
-  | CreateNote String
+  | CreateNote (Maybe FormEvent) String
   | CreateAttachedNote String (Seqnum "todo")
   | NoteUIAction (Seqnum "note") NoteUIAction
   | StartEditingNote (Seqnum "note")

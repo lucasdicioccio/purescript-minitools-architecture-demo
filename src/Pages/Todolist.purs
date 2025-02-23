@@ -356,8 +356,9 @@ page { tracer } =
       [ HP.classes [ HH.ClassName "field", HH.ClassName "has-addons" ]
       , reportKey "new-note"
       ]
-      [ HH.div
+      [ HH.form
         [ HP.class_ (HH.ClassName "control")
+        , HE.onSubmit (\ev -> CreateNote (Just (FormEvent ev)) state.ui.newNoteTitle)
         ]
         [ HH.input
           [ HP.class_ (HH.ClassName "input")
@@ -373,7 +374,7 @@ page { tracer } =
           { text: "add"
           , info: "insert new note"
           , disabled: state.ui.newNoteTitle == ""
-          , action: CreateNote state.ui.newNoteTitle
+          , action: CreateNote Nothing state.ui.newNoteTitle
           }
         ]
       ]

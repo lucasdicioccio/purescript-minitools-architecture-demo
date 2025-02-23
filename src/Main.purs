@@ -87,8 +87,18 @@ component params pushReport storage =
                      ]
                 (Todolist.DeleteTodo _) ->
                    Just (key "delete-todo")
-                (Todolist.CreateNote _) ->
-                   Just (key "create-note")
+                (Todolist.CreateNote Nothing _) ->
+                   Just
+                   $ object
+                     [ kvStr "key" "create-note"
+                     , kvStr "style" "direct"
+                     ]
+                (Todolist.CreateNote (Just _) _) ->
+                   Just
+                   $ object
+                     [ kvStr "key" "create-note"
+                     , kvStr "style" "via-form"
+                     ]
                 (Todolist.DeleteNote _) ->
                    Just (key "delete-note")
                 (Todolist.CreateAttachedNote _ _) ->

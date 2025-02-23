@@ -57,7 +57,8 @@ handleAction tracer action =
       let filterattachments st0 = Array.filter (\x -> x.todoSeqnum /= seqnum) st0.entities.attachments
       H.modify_ (\st0 -> st0 { entities { todos = filtertodo st0, attachments = filterattachments st0 } })
       requestSave
-    CreateNote title -> do
+    CreateNote event title -> do
+      liftEffect $ traverse_ cancelEventPropagation event
       seqnum <- Seqnum.allocate
       let appendnote st0 = Array.cons {seqnum, title, content: ""} st0.entities.notes
       H.modify_ (\st0 -> st0 { entities { notes = appendnote st0 }, ui { newNoteTitle = "" } })
