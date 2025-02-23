@@ -162,6 +162,7 @@ page { tracer } =
           [ HP.class_ (HH.ClassName "input")
           , HP.placeholder "cheer for Lucas' blog on social media"
           , HE.onValueInput SetNewTodoText
+          , HP.value state.ui.newTodoText
           ]
         ]
       , HH.div
