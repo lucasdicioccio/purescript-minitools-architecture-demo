@@ -502,8 +502,7 @@ render_about =
     , HH.text "I would like to have individual commits starting from this base for showing how to evolve such todo-app. "
     , HH.text "(A) it is interesting to add some filter/sorter on the table like I did in PostgREST-Table. "
     , HH.text "(B) we need to modify the Action and Handlers to support a tutorial or insert-data mode. "
-    , HH.text "(C) we need some slight modification to the HTML layout so that the 'add buttons' are bound to onSubmit rather than onClick. "
-    , HH.text "(D) add some sum-type to specialize notes (e.g., if a note is an address we may link to an online-map service)."
+    , HH.text "(C) add some sum-type to specialize notes (e.g., if a note is an address we may link to an online-map service)."
     ]
   , HH.p_ 
     [ HH.text "Contributions are welcome. "
